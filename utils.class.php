@@ -19,7 +19,6 @@ class utils {
 	 *         array('i'=>'something', ...)
 	 */
 	static public function args ($opts, $desc = "") {
-<<<<<<< HEAD
 		
 		$parsedopts= array();
 		foreach ($opts as $opt) {
@@ -70,49 +69,6 @@ class utils {
 			exit ();
 		}
 		unset($options['-error']);
-=======
-		$shortopts = '';
-		$longopts  = array();
-		$parsedopts= array();
-		foreach ($opts as $opt) {
-			if (!$opt[0]) continue;
-			if (isset($opt[2]) and $opt[2]===self::ARG_REQUIRED) {
-				$parsedopts[$opt[0]]['required'] = true;
-				$parsedopts[$opt[0]]['info']     = $opt[1];
-				$parsedopts[$opt[0]]['long']     = isset($opt[3]) ? $opt[3] : '';
-				$parsedopts[$opt[0]]['default']  = true;
-				$shortopts .= $opt[0] . ':';
-				if ($parsedopts[$opt[0]]['long'])
-					$longopts[] = $parsedopts[$opt[0]]['long'] . ':';
-			} else {
-				$parsedopts[$opt[0]]['required'] = false;
-				$parsedopts[$opt[0]]['info']     = $opt[1];
-				$parsedopts[$opt[0]]['long']     = isset($opt[3]) ? $opt[3] : '';
-				$parsedopts[$opt[0]]['default']  = isset($opt[2]) ? $opt[2] : '';
-				$shortopts .= $opt[0] . '::';
-				if ($parsedopts[$opt[0]]['long'])
-					$longopts[] = $parsedopts[$opt[0]]['long'] . '::';
-			}
-		}
-		
-		$help = self::getHelp ($parsedopts, $desc);
-		
-		$options = getopt ($shortopts, $longopts);
-		$options['--help'] = $help;
-		foreach ($parsedopts as $k => $info) {
-			if ($info['long'] and $options[$info['long']]) {
-				$options[$k] = $options[$info['long']];
-				unset ($options[$info['long']]);
-			}
-			if ($info['required'] and !isset($options[$k])) { //requirement check
-				fwrite(STDERR, self::color("\nError: Option -$k is required.\n", "lightred"));
-				fwrite(STDERR, $help);
-				exit ();
-			}
-			if (!isset($options[$k]) and $info['default']!==self::ARG_REQUIRED)
-				$options[$k] = $info['default'];
-		}
->>>>>>> fbd54a69b7c8e5cb3f7e7bbc5ee0e502c61c8015
 
 		return $options;
 	}
@@ -199,7 +155,6 @@ class utils {
 	static private function getHelp (&$parsedopts, $desc) {
 		global $argv;
 		$ret = "";
-<<<<<<< HEAD
 		if (isset($parsedopts['-rest'])) {
 			$usage = $parsedopts['-rest']['long']=='first' 
 				? "USAGE: {$argv[0]} {$parsedopts['-rest']['info']} [OPTIONS]"
@@ -235,27 +190,10 @@ class utils {
 			if ($fmt['deft']) {
 				$ret .= str_repeat(" ", $padlen) . self::color("DEFAULT: {$fmt['deft']}", $fmt['color']) . PHP_EOL;
 			}
-=======
-		$ret .= self::color("Usage: {$argv[0]} <options>\n", "yellow");
-		$ret .= "  " . str_replace("\n", "\n  ", $desc);
-		$ret .= "\n\n";
-		$ret .= "Options:\n";
-		foreach ($parsedopts as $k => $info) {
-			if ($info['default'] and !$info['required'])
-				$ret .= self::color("  -$k", "lightgreen");
-			else
-				$ret .= self::color("  -$k", "lightcyan");
-			$ret .= self::color(str_pad($info['long'] ? ", --{$info['long']}" : " ", 15), "lightcyan");
-			$ret .= $info['info'] . "\n";
-			if ($info['default'] and !$info['required'])
-				$ret .= self::color("                   Default: " . $info['default'] . "\n", "lightgreen");
-			//$ret .= "  --------------------------------------------------------------------------------------------\n";
->>>>>>> fbd54a69b7c8e5cb3f7e7bbc5ee0e502c61c8015
 		}
 		$ret .= "\n";
 		return $ret;
 	}
-<<<<<<< HEAD
 	
 	static public function getopts() {
 		global $argv, $argc;
@@ -296,7 +234,5 @@ class utils {
 		}
 		return $ret;
 	}
-=======
->>>>>>> fbd54a69b7c8e5cb3f7e7bbc5ee0e502c61c8015
 
 }
