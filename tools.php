@@ -6,8 +6,8 @@ if ($argc==0) {
 }
 require_once (__DIR__ . '/biophp.php');
 $subcommand = $argv[1];
-define (NORMAL_COLOR, 'default');
-define (HIGH_COLOR, 'lightpurple');
+define ('NORMAL_COLOR', 'default');
+define ('HIGH_COLOR', 'lightpurple');
 
 switch ($subcommand) {
 	case 'help':
@@ -16,7 +16,7 @@ switch ($subcommand) {
 	case 'usage':
 		echo "\nUsage for biophp :\n\n";
 		echo "biophp\n";
-		$namespaces = $argv[2];
+		$namespaces = @$argv[2];
 		$subfiles = glob (__DIR__ . '/*.class.php');
 
 		// list all sub-namespaces
@@ -86,7 +86,7 @@ switch ($subcommand) {
 											error( "Error: wrong path [biophp.$class.$constOrClass.".implode(".", $ns)."]");
 										}
 										foreach ($comments as $key=>$value) {
-											if ($key!=$ns[0]) 
+											if ($key!=@$ns[0]) 
 												echo \biophp\utils::color("          [+] :: " . $key . "\n", NORMAL_COLOR);
 											else {
 												echo \biophp\utils::color("          [-] :: " . $key . "\n", HIGH_COLOR); 
